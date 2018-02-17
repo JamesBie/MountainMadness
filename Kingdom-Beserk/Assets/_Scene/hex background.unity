@@ -541,6 +541,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114901474570283124, guid: e4c29e41c37c64688bd0e190eb4cba92,
+        type: 2}
+      propertyPath: HexMaterials.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4873179965860990, guid: e4c29e41c37c64688bd0e190eb4cba92, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -585,6 +590,26 @@ Prefab:
       value: 
       objectReference: {fileID: 114762381616608148, guid: c2b876531864c46d3b1c8c7ce6a72426,
         type: 2}
+    - target: {fileID: 114901474570283124, guid: e4c29e41c37c64688bd0e190eb4cba92,
+        type: 2}
+      propertyPath: HexMaterials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ae8af747043b4d1bbe25fb6a3dd5455, type: 2}
+    - target: {fileID: 114901474570283124, guid: e4c29e41c37c64688bd0e190eb4cba92,
+        type: 2}
+      propertyPath: HexMaterials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 14b20c31a9a71464f9367191d1bf68ac, type: 2}
+    - target: {fileID: 114901474570283124, guid: e4c29e41c37c64688bd0e190eb4cba92,
+        type: 2}
+      propertyPath: HexMaterials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 20361878ce33a495cbdb349bfd9382bf, type: 2}
+    - target: {fileID: 114901474570283124, guid: e4c29e41c37c64688bd0e190eb4cba92,
+        type: 2}
+      propertyPath: HexMaterials.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: 719572164910741a8b5c3e55b130170a, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e4c29e41c37c64688bd0e190eb4cba92, type: 2}
   m_IsPrefabParent: 0

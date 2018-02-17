@@ -9,6 +9,7 @@ public class HexGrid : MonoBehaviour {
 	public int height=6;
 	public HexCell cellPrefab;
 	public Text cellLabelPrefab;
+	public Material[] HexMaterials;
 	Canvas gridCanvas;
 	HexMesh hexMesh;
 
@@ -34,15 +35,20 @@ public class HexGrid : MonoBehaviour {
 		position.x = (x + z*0.5f-z/2) * (Hexmetrics.innerRadius * 2f);
 		position.y = 0f;
 		position.z = z * (Hexmetrics.outerRadius*1.5f);
+
 		HexCell cell = cells[i] = Instantiate<HexCell>(cellPrefab);
 		cell.transform.SetParent(transform, false);
 		cell.transform.localPosition = position;
+		cell.coordinates = HexCoordinates.FromOffsetCoordinates (x,z);
+	
 
 
+		//Text label coodrinates to display where each cell is. can remove later
 		Text label = Instantiate<Text> (cellLabelPrefab);
 		label.rectTransform.SetParent (gridCanvas.transform, false);
 		label.rectTransform.anchoredPosition = new Vector2 (position.x, position.z);
 		label.text = x.ToString() + "\n" + z.ToString();
+		label.text = cell.coordinates.ToStringOnSeparateLines();
 
 
 	}
