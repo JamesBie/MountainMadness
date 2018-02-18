@@ -10,6 +10,12 @@ public class HexCell : MonoBehaviour {
 	public const float elevationStep = 2f;
 	public RectTransform uiRect;
 
+	[SerializeField]
+	HexCell[] neighbors;
+
+
+
+	//sets elevation
 	public int Elevation {
 		get {
 			return elevation;
@@ -26,6 +32,17 @@ public class HexCell : MonoBehaviour {
 			uiRect.localPosition = uiPosition;
 		}
 	}
+
+	public HexCell GetNeighbor (HexDirection direction) {
+		return neighbors[(int)direction];
+	}
+
+	public void SetNeighbor (HexDirection direction, HexCell cell) {
+		neighbors[(int)direction] = cell;
+		cell.neighbors[(int)direction.Opposite()] = this;
+	}
+
+	//this is used to determine neighbours
 
 	void Awake(){
 		

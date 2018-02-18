@@ -41,18 +41,34 @@ public class HexMesh : MonoBehaviour {
 		meshCollider.sharedMesh = hexMesh;
 	}
 
-	void Triangulate (HexCell cell){
-	
-		Vector3 center = cell.transform.localPosition;
-		for (int i = 0; i < 6; i++) {
-			AddTriangle (
-				center,
-				center + Hexmetrics.corners [i],
-				center + Hexmetrics.corners [i+1]
-			);
-			AddTriangleColor (cell.color);
-		}
+
+//	void Triangulate (HexCell cell){
+//	
+//		Vector3 center = cell.transform.localPosition;
+//		for (int i = 0; i < 6; i++) {
+//			AddTriangle (
+//				center,
+//				center + Hexmetrics.corners [i],
+//				center + Hexmetrics.corners [i+1]
+//			);
+//			AddTriangleColor (cell.color);
+//		}
+//	}
+	void Triangulate (HexCell cell) {
+	for (HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++) {
+		Triangulate(d, cell);
 	}
+}
+
+void Triangulate (HexDirection direction, HexCell cell) {
+	Vector3 center = cell.transform.localPosition;
+	AddTriangle(
+		center,
+		center + Hexmetrics.corners[(int)direction],
+		center + Hexmetrics.corners[(int)direction + 1]
+	);
+	AddTriangleColor(cell.color);
+}
 
 
 	void AddTriangle (Vector3 v1, Vector3 v2, Vector3 v3){
@@ -73,6 +89,9 @@ public class HexMesh : MonoBehaviour {
 		colors.Add(color);
 		colors.Add(color);
 		colors.Add(color);
+	}
+
+	void TriangulateConnections(){
 	}
 
 	// Use this for initialization
