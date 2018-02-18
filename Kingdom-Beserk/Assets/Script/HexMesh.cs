@@ -67,7 +67,11 @@ void Triangulate (HexDirection direction, HexCell cell) {
 			center + Hexmetrics.GetFirstCorner(direction),
 			center + Hexmetrics.GetSecondCorner(direction)
 	);
-	AddTriangleColor(cell.color);
+		HexCell prevNeighbor = cell.GetNeighbor(direction.Previous()) ?? cell;
+		HexCell neighbor = cell.GetNeighbor(direction)??cell;
+		HexCell nextNeighbor = cell.GetNeighbor(direction.Next()) ?? cell;
+		Color edgeColor = (cell.color + neighbor.color) * 0.5f;
+		AddTriangleColor(cell.color,(cell.color + prevNeighbor.color + neighbor.color) / 3f, (cell.color + neighbor.color + nextNeighbor.color) / 3f);
 }
 
 
@@ -85,11 +89,21 @@ void Triangulate (HexDirection direction, HexCell cell) {
 	
 	}
 
+
+
 	void AddTriangleColor(Color color){
 		colors.Add(color);
 		colors.Add(color);
 		colors.Add(color);
 	}
+
+	//supporting multiple colors for each traingle based off vertices;
+	void AddTriangleColor (Color c1, Color c2, Color c3) {
+		colors.Add(c1);
+		colors.Add(c2);
+		colors.Add(c3);
+	}
+
 
 	void TriangulateConnections(){
 	}
