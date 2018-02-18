@@ -19,83 +19,9 @@ public class HexMesh : MonoBehaviour {
 	}
 
 
-	public void Triangulate( HexCell[] cells){
-		hexMesh.Clear ();
-		vertices.Clear ();
-		triangles.Clear ();
-		colors.Clear ();
-		for (int i=0; i < cells.Length; i++) {
-
-			Triangulate (cells [i]);
-		}
-
-		hexMesh.vertices = vertices.ToArray();
-		hexMesh.triangles = triangles.ToArray();
-		hexMesh.colors = colors.ToArray ();
-		hexMesh.RecalculateNormals();
-		meshCollider.sharedMesh = hexMesh;
-	}
 
 
-//	void Triangulate (HexCell cell){
-//	
-//		Vector3 center = cell.transform.localPosition;
-//		for (int i = 0; i < 6; i++) {
-//			AddTriangle (
-//				center,
-//				center + Hexmetrics.corners [i],
-//				center + Hexmetrics.corners [i+1]
-//			);
-//			AddTriangleColor (cell.color);
-//		}
-//	}
-	void Triangulate (HexCell cell) {
-	for (HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++) {
-		Triangulate(d, cell);
-	}
-}
-
-void Triangulate (HexDirection direction, HexCell cell) {
-		Vector3 center = cell.transform.localPosition;
-		Vector3 vert1 = center + Hexmetrics.GetFirstSolidCorner (direction);
-		Vector3 vert2 = center + Hexmetrics.GetSecondSolidCorner (direction);
-		AddTriangle (center, vert1, vert2);
-
-		AddTriangleColor (cell.color);
-
-		if (direction <= HexDirection.SE) {
-			TriangulateConnection (direction, cell, vert1, vert2);
-		}
-
-
-	}
-	void TriangulateConnection (
-		HexDirection direction, HexCell cell, Vector3 vert1, Vector3 vert2
-	) {
-		HexCell neighbor = cell.GetNeighbor(direction);
-		if (neighbor == null) {
-			return;
-		}
-		Vector3 bridge = Hexmetrics.GetBridge(direction);
-		Vector3 vert3 = vert1 + bridge;
-		Vector3 vert4 = vert2 + bridge;
-		vert3.y = vert4.y = neighbor.Elevation * Hexmetrics.elevationChange;
-
-		AddQuad(vert1, vert2, vert3, vert4);
-		AddQuadColor(cell.color, neighbor.color);
-
-		HexCell nextNeighbor = cell.GetNeighbor(direction.Next());
-		if (direction <= HexDirection.E && nextNeighbor != null) {
-
-			Vector3 vert5 = vert2 + Hexmetrics.GetBridge(direction.Next());
-			vert5.y = nextNeighbor.Elevation * Hexmetrics.elevationChange;
-			AddTriangle(vert2, vert4, vert5);
-			AddTriangleColor(cell.color, neighbor.color, nextNeighbor.color);
-		}
-	}
-
-
-	void AddTriangle (Vector3 v1, Vector3 v2, Vector3 v3){
+	public void AddTriangle (Vector3 v1, Vector3 v2, Vector3 v3){
 	
 		int vertexIndex = vertices.Count;
 		vertices.Add (v1);
@@ -111,14 +37,14 @@ void Triangulate (HexDirection direction, HexCell cell) {
 
 
 
-	void AddTriangleColor(Color color){
+	public void AddTriangleColor(Color color){
 		colors.Add(color);
 		colors.Add(color);
 		colors.Add(color);
 	}
 
 	//supporting multiple colors for each traingle based off vertices;
-	void AddTriangleColor (Color c1, Color c2, Color c3) {
+	public void AddTriangleColor (Color c1, Color c2, Color c3) {
 		colors.Add(c1);
 		colors.Add(c2);
 		colors.Add(c3);
@@ -140,7 +66,7 @@ void Triangulate (HexDirection direction, HexCell cell) {
 	}
 
 	//fills in space 
-	void AddQuad (Vector3 v1, Vector3 v2, Vector3 v3, Vector3 v4) {
+	public void AddQuad (Vector3 v1, Vector3 v2, Vector3 v3, Vector3 v4) {
 		int vertexIndex = vertices.Count;
 		vertices.Add(v1);
 		vertices.Add(v2);
@@ -155,7 +81,7 @@ void Triangulate (HexDirection direction, HexCell cell) {
 	}
 
 	//this is for the spaces between the solid color cores between hexes. 
-	void AddQuadColor (Color c1, Color c2, Color c3, Color c4) {
+	public void AddQuadColor (Color c1, Color c2, Color c3, Color c4) {
 		colors.Add(c1);
 		colors.Add(c2);
 		colors.Add(c3);
@@ -163,10 +89,25 @@ void Triangulate (HexDirection direction, HexCell cell) {
 	}
 
 	//variant of addquadcolor that only needs 2 colors
-	void AddQuadColor (Color c1, Color c2) {
+	public void AddQuadColor (Color c1, Color c2) {
 		colors.Add(c1);
 		colors.Add(c1);
 		colors.Add(c2);
 		colors.Add(c2);
+	}
+
+	public void Clear () {
+		hexMesh.Clear();
+		vertices.Clear();
+		colors.Clear();
+		triangles.Clear();
+	}
+
+	public void Apply () {
+		hexMesh.SetVertices(vertices);
+		hexMesh.SetColors(colors);
+		hexMesh.SetTriangles(triangles, 0);
+		hexMesh.RecalculateNormals();
+		meshCollider.sharedMesh = hexMesh;
 	}
 }

@@ -1078,7 +1078,7 @@ GameObject:
   - component: {fileID: 1109824879}
   - component: {fileID: 1109824881}
   m_Layer: 0
-  m_Name: HexMesh
+  m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2640,7 +2640,7 @@ Prefab:
     - target: {fileID: 114901474570283124, guid: e4c29e41c37c64688bd0e190eb4cba92,
         type: 2}
       propertyPath: labels
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e4c29e41c37c64688bd0e190eb4cba92, type: 2}
