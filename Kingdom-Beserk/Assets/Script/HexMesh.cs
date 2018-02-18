@@ -64,47 +64,36 @@ public class HexMesh : MonoBehaviour {
 void Triangulate (HexDirection direction, HexCell cell) {
 		Vector3 center = cell.transform.localPosition;
 		Vector3 vert1 = center + Hexmetrics.GetFirstSolidCorner (direction);
-		Vector3 vert2 = center + Hexmetrics.GetSecondSolidCorner(direction);
-	AddTriangle(
-			center,
-			vert1,
-			vert2
-	);
+		Vector3 vert2 = center + Hexmetrics.GetSecondSolidCorner (direction);
+		AddTriangle (center, vert1, vert2);
 
-		AddTriangleColor(cell.color);
+		AddTriangleColor (cell.color);
+
+		if (direction <= HexDirection.SE) {
+			TriangulateConnection (direction, cell, vert1, vert2);
+		}
 
 
+	}
+	void TriangulateConnection (
+		HexDirection direction, HexCell cell, Vector3 vert1, Vector3 vert2
+	) {
+		HexCell neighbor = cell.GetNeighbor(direction);
+		if (neighbor == null) {
+			return;
+		}
 		Vector3 bridge = Hexmetrics.GetBridge(direction);
 		Vector3 vert3 = vert1 + bridge;
 		Vector3 vert4 = vert2 + bridge;
 
 		AddQuad(vert1, vert2, vert3, vert4);
-		HexCell prevNeighbor = cell.GetNeighbor(direction.Previous()) ?? cell;
-		HexCell neighbor = cell.GetNeighbor(direction)??cell;
-		HexCell nextNeighbor = cell.GetNeighbor(direction.Next()) ?? cell;
+		AddQuadColor(cell.color, neighbor.color);
 
-		Color bridgeColor = (cell.color + neighbor.color) * 0.5f;
-		AddQuadColor(
-			cell.color,
-			bridgeColor
-		);
-
-
-		//filled in 1 of 2 triangles that we cut out to prevent pollution from neighbouring tiles. 
-		AddTriangle(vert1, center + Hexmetrics.GetFirstCorner(direction), vert3);
-		AddTriangleColor(
-			cell.color,
-			(cell.color + prevNeighbor.color + neighbor.color) / 3f,
-			bridgeColor
-		);
-
-		//filled in 2 of 2 triangles that we cut out to prevent pollution from neighbouring tiles.
-		AddTriangle(vert2, vert4, center + Hexmetrics.GetSecondCorner(direction));
-		AddTriangleColor(
-			cell.color,
-			bridgeColor,
-			(cell.color + neighbor.color + nextNeighbor.color) / 3f
-		);
+		HexCell nextNeighbor = cell.GetNeighbor(direction.Next());
+		if (nextNeighbor != null) {
+			AddTriangle(vert2, vert4, vert2+ Hexmetrics.GetBridge(direction.Next()));
+			AddTriangleColor(cell.color, neighbor.color, nextNeighbor.color);
+		}
 	}
 
 
