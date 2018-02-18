@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class HexGrid : MonoBehaviour {
 
-//	public int width=6;
-//	public int height=6;
+
 	public int chunkCountX = 4; // how many chunks in the map along x
 	public int chunkCountZ = 3; //how many chunks in the map along z
 	public bool labels;
@@ -20,7 +19,7 @@ public class HexGrid : MonoBehaviour {
 	public Material[] HexMaterials;
 
 
-	MeshRenderer mr;
+	//MeshRenderer mr;
 
 	HexGridChunk[] chunks;
 
@@ -32,7 +31,7 @@ public class HexGrid : MonoBehaviour {
 
 	void Awake () {
 
-		mr = GetComponentInChildren<MeshRenderer> ();
+	//	mr = GetComponentInChildren<MeshRenderer> ();
 	
 
 		cellCountX = chunkCountX * Hexmetrics.chunkSizeX;
