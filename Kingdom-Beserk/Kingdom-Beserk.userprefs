@@ -1,13 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Editor/HexCoordinateDrawer.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/HexMesh.cs">
     <Files>
-      <File FileName="Assets/Script/HexGrid.cs" Line="51" Column="59" />
-      <File FileName="Assets/Script/HexMesh.cs" Line="40" Column="33" />
+      <File FileName="Assets/Script/HexCell.cs" Line="93" Column="1" />
+      <File FileName="Assets/Script/HexGrid.cs" Line="107" Column="3" />
+      <File FileName="Assets/Script/HexMesh.cs" Line="18" Column="29" />
+      <File FileName="Assets/Script/HexGridChunk.cs" Line="1" Column="1" />
       <File FileName="Assets/Script/HexMetrics.cs" Line="23" Column="1" />
-      <File FileName="Assets/Script/HexCoord.cs" Line="20" Column="5" />
       <File FileName="Assets/Script/HexCoordinates.cs" Line="17" Column="1" />
-      <File FileName="Assets/Script/HexCell.cs" Line="9" Column="2" />
       <File FileName="Assets/Editor/HexCoordinateDrawer.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>

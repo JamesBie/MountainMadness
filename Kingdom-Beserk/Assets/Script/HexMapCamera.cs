@@ -12,6 +12,7 @@ public class HexMapCamera : MonoBehaviour {
 	public float moveSpeedMinZoom, moveSpeedMaxZoom;
 	public HexGrid grid;
 	public float rotationSpeed;
+	float rotationAngle;
 
 	void Awake () {
 		swivel = transform.GetChild (0);
@@ -38,6 +39,7 @@ public class HexMapCamera : MonoBehaviour {
 		if (rotationDelta != 0f) {
 
 			AdjustRotation (rotationDelta);
+
 		}
 
 		if (xDelta != 0f || zDelta != 0f) {
@@ -48,12 +50,20 @@ public class HexMapCamera : MonoBehaviour {
 
 	// allows rotation of the camera
 	void AdjustRotation (float delta) {
+		rotationAngle += delta * rotationSpeed * Time.deltaTime;
+		if (rotationAngle < 0f) {
+			rotationAngle += 360f;
+		}
+		else if (rotationAngle >= 360f) {
+			rotationAngle -= 360f;
+		}
+		transform.localRotation = Quaternion.Euler(0f, rotationAngle, 0f);
 	}
 
 
 	// allows you to move the camera
 	void AdjustPosition (float xDelta, float zDelta) {
-		Vector3 direction = new Vector3 (xDelta, 0f, zDelta).normalized;// allows diagonal movement to be the same as side
+		Vector3 direction = transform.localRotation *new Vector3 (xDelta, 0f, zDelta).normalized;// allows diagonal movement to be the same as side
 		float damping = Mathf.Max(Mathf.Abs(xDelta), Mathf.Abs(zDelta));
 		float distance = Mathf.Lerp (moveSpeedMinZoom,moveSpeedMaxZoom,zoom) * damping *  Time.deltaTime; // this allows faster scrolling when zoomed out
 		Vector3 position = transform.localPosition;
