@@ -52,11 +52,12 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Script\HexCell.cs" />
-     <Compile Include="Assets\Script\HexCoord.cs" />
      <Compile Include="Assets\Script\HexCoordinates.cs" />
      <Compile Include="Assets\Script\HexGrid.cs" />
+     <Compile Include="Assets\Script\HexMapEditor.cs" />
      <Compile Include="Assets\Script\HexMesh.cs" />
      <Compile Include="Assets\Script\HexMetrics.cs" />
+     <None Include="Assets\Default Shader.shader" />
  <Reference Include="UnityEngine.UIAutomation">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
  </Reference>
