@@ -9,6 +9,7 @@ public class HexGrid : MonoBehaviour {
 //	public int height=6;
 	public int chunkCountX = 4; // how many chunks in the map along x
 	public int chunkCountZ = 3; //how many chunks in the map along z
+	public bool labels;
 
 	int cellCountX; //how many cells in total along x
 	int cellCountZ;// how many cells in total along z
@@ -122,7 +123,7 @@ public class HexGrid : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		ShowUI (labels);
 	}
 	
 	// Update is called once per frame
@@ -180,6 +181,12 @@ public class HexGrid : MonoBehaviour {
 				return cells[index];
 	
 			}
+
+	public void ShowUI (bool visible) {
+		for (int i = 0; i < chunks.Length; i++) {
+			chunks[i].ShowUI(visible);
+		}
+	}
 
 
 	//used with hex map color editor which is not in use

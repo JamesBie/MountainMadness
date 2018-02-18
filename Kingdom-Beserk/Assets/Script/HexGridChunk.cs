@@ -18,11 +18,16 @@ public class HexGridChunk : MonoBehaviour {
 		cell.uiRect.SetParent(gridCanvas.transform, false);
 	}
 
+	public void ShowUI (bool visible) {
+		gridCanvas.gameObject.SetActive(visible);
+	}
+
 	void Awake () {
 		gridCanvas = GetComponentInChildren<Canvas>();
 		hexMesh = GetComponentInChildren<HexMesh>();
 
 		cells = new HexCell[Hexmetrics.chunkSizeX * Hexmetrics.chunkSizeZ];
+		ShowUI(false);
 	}
 
 	void Start () {
