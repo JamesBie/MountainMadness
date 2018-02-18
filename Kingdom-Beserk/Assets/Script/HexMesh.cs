@@ -64,8 +64,8 @@ void Triangulate (HexDirection direction, HexCell cell) {
 	Vector3 center = cell.transform.localPosition;
 	AddTriangle(
 		center,
-		center + Hexmetrics.corners[(int)direction],
-		center + Hexmetrics.corners[(int)direction + 1]
+			center + Hexmetrics.GetFirstCorner(direction),
+			center + Hexmetrics.GetSecondCorner(direction)
 	);
 	AddTriangleColor(cell.color);
 }

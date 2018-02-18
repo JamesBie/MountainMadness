@@ -8,7 +8,7 @@ public static class Hexmetrics{
 	public const float elevationChange = 2f;
 
 
-	public static Vector3[] corners = {
+	static Vector3[] corners = {
 		new Vector3(0f, 0f, outerRadius),
 		new Vector3(innerRadius, 0f, 0.5f * outerRadius),
 		new Vector3(innerRadius, 0f, -0.5f * outerRadius),
@@ -18,6 +18,12 @@ public static class Hexmetrics{
 		new Vector3(0f, 0f, outerRadius)
 	};
 
+	public static Vector3 GetFirstCorner (HexDirection direction) {
+		return corners[(int)direction];
+	}
 
+	public static Vector3 GetSecondCorner (HexDirection direction) {
+		return corners[(int)direction + 1];
+	}
 
 }
