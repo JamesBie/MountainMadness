@@ -8,6 +8,9 @@ public static class Hexmetrics{
 	public const float elevationChange = 2f;
 	public const float solidFactor = 0.8f;
 	public const float blendFactor = 1f - solidFactor;
+	public const int chunkSizeX = 5;//how many cells in each chunk along the x
+	public const int chunkSizeZ =5; //how many cells in each chunk along the y
+
 
 
 	static Vector3[] corners = {

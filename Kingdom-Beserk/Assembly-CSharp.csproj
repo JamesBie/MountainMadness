@@ -55,6 +55,7 @@
      <Compile Include="Assets\Script\HexCoordinates.cs" />
      <Compile Include="Assets\Script\HexDirection.cs" />
      <Compile Include="Assets\Script\HexGrid.cs" />
+     <Compile Include="Assets\Script\HexGridChunk.cs" />
      <Compile Include="Assets\Script\HexMapEditor.cs" />
      <Compile Include="Assets\Script\HexMesh.cs" />
      <Compile Include="Assets\Script\HexMetrics.cs" />

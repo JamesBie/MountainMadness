@@ -85,13 +85,17 @@ void Triangulate (HexDirection direction, HexCell cell) {
 		Vector3 bridge = Hexmetrics.GetBridge(direction);
 		Vector3 vert3 = vert1 + bridge;
 		Vector3 vert4 = vert2 + bridge;
+		vert3.y = vert4.y = neighbor.Elevation * Hexmetrics.elevationChange;
 
 		AddQuad(vert1, vert2, vert3, vert4);
 		AddQuadColor(cell.color, neighbor.color);
 
 		HexCell nextNeighbor = cell.GetNeighbor(direction.Next());
-		if (nextNeighbor != null) {
-			AddTriangle(vert2, vert4, vert2+ Hexmetrics.GetBridge(direction.Next()));
+		if (direction <= HexDirection.E && nextNeighbor != null) {
+
+			Vector3 vert5 = vert2 + Hexmetrics.GetBridge(direction.Next());
+			vert5.y = nextNeighbor.Elevation * Hexmetrics.elevationChange;
+			AddTriangle(vert2, vert4, vert5);
 			AddTriangleColor(cell.color, neighbor.color, nextNeighbor.color);
 		}
 	}

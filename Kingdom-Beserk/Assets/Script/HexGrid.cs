@@ -5,8 +5,13 @@ using UnityEngine.UI;
 
 public class HexGrid : MonoBehaviour {
 
-	public int width=6;
-	public int height=6;
+//	public int width=6;
+//	public int height=6;
+	public int chunkCountX = 4; // how many chunks in the map along x
+	public int chunkCountZ = 3; //how many chunks in the map along z
+
+	int cellCountX; //how many cells in total along x
+	int cellCountZ;// how many cells in total along z
 	public HexCell cellPrefab;
 	public Text cellLabelPrefab;
 	public Material[] HexMaterials;
@@ -25,10 +30,17 @@ public class HexGrid : MonoBehaviour {
 		hexMesh = GetComponentInChildren<HexMesh> ();
 		mr = GetComponentInChildren<MeshRenderer> ();
 	
-		cells = new HexCell[height * width];
 
-		for (int z = 0, i = 0; z < height; z++) {
-			for (int x = 0; x < width; x++) {
+		cellCountX = chunkCountX * Hexmetrics.chunkSizeX;
+		cellCountZ = chunkCountZ * Hexmetrics.chunkSizeZ;
+
+		CreateCells ();
+	}
+	void CreateCells(){
+		cells = new HexCell[cellCountZ * cellCountX];
+
+		for (int z = 0, i = 0; z < cellCountZ; z++) {
+			for (int x = 0; x < cellCountX; x++) {
 				CreateCell(x, z, i++);
 			}
 		}
