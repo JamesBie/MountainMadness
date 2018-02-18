@@ -62,6 +62,8 @@
      <Compile Include="Assets\Script\HexMesh.cs" />
      <Compile Include="Assets\Script\HexMetrics.cs" />
      <Compile Include="Assets\Script\ListPool.cs" />
+     <Compile Include="Assets\Script\TextureArrayWizard.cs" />
+     <None Include="Assets\Terrain.shader" />
      <None Include="Assets\Default Shader.shader" />
  <Reference Include="UnityEngine.UIAutomation">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>

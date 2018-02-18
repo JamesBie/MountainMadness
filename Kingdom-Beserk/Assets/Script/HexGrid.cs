@@ -17,7 +17,8 @@ public class HexGrid : MonoBehaviour {
 	public HexGridChunk chunkPrefab;
 	public Text cellLabelPrefab;
 	public Material[] HexMaterials;
-
+	private Color activeColor;
+	private HexMapEditor editor ;
 
 	//MeshRenderer mr;
 
@@ -129,7 +130,7 @@ public class HexGrid : MonoBehaviour {
 	void Update () {
 		if (Input.GetMouseButtonDown(0)||Input.GetMouseButtonDown(1)) {
 			Debug.Log ("left/right button clicked");
-			HandleInput();
+			//HandleInput();
 		}
 		
 	}
@@ -139,24 +140,24 @@ public class HexGrid : MonoBehaviour {
 		Debug.Log ("Raycast looking for collider");
 		RaycastHit hit;
 		if (Physics.Raycast(inputRay, out hit)) {
-			TouchCell(hit.point);
+			ColorCell(hit.point, editor.activeColor);
 
 
 		}
 	}
 
 	// changes the color of cell when its clicked
-	void TouchCell (Vector3 position) {
-		position = transform.InverseTransformPoint(position);
-		HexCoordinates coordinates = HexCoordinates.FromPosition(position);
-		Debug.Log("touched at " + coordinates.ToString());
-		int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
-		HexCell cell = cells[index];
-		ElevateCell (cell);
-		cell.Color = touchedColor;
-
-
-	}
+//	void TouchCell (Vector3 position) {
+//		position = transform.InverseTransformPoint(position);
+//		HexCoordinates coordinates = HexCoordinates.FromPosition(position);
+//		Debug.Log("touched at " + coordinates.ToString());
+//		int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
+//		HexCell cell = cells[index];
+//		ElevateCell (cell);
+//		cell.Color = touchedColor;
+//
+//
+//	}
 
 	void ElevateCell(HexCell cell){
 		if(Input.GetButton("Jump")) {
@@ -188,14 +189,15 @@ public class HexGrid : MonoBehaviour {
 	}
 
 
-	//used with hex map color editor which is not in use
-//	public void ColorCell (Vector3 position, Color color) {
-//		position = transform.InverseTransformPoint(position);
-//		HexCoordinates coordinates = HexCoordinates.FromPosition(position);
-//		Debug.Log("touched at " + coordinates.ToString());
-//		int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
-//		HexCell cell = cells[index];
-//		cell.color = color;
-//		hexMesh.Triangulate(cells);
-//	}
+
+	public void ColorCell (Vector3 position, Color color) {
+		position = transform.InverseTransformPoint(position);
+		HexCoordinates coordinates = HexCoordinates.FromPosition(position);
+		Debug.Log("touched at " + coordinates.ToString());
+		int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
+		HexCell cell = cells[index];
+		ElevateCell (cell);
+		cell.Color = color;
+		//hexMesh.Triangulate(cells);
+	}
 }

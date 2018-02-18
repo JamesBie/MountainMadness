@@ -734,7 +734,7 @@ MonoBehaviour:
   - {r: 0.044117644, g: 0.13661249, b: 0.75, a: 0}
   - {r: 0.084342584, g: 0.9558824, b: 0.19854446, a: 0}
   - {r: 0.94888437, g: 1, b: 0.07352942, a: 0}
-  hexGrid: {fileID: 0}
+  hexGrid: {fileID: 114901474570283124, guid: e4c29e41c37c64688bd0e190eb4cba92, type: 2}
 --- !u!114 &114425446347416318
 MonoBehaviour:
   m_ObjectHideFlags: 1
