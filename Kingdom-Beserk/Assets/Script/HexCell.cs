@@ -9,6 +9,7 @@ public class HexCell : MonoBehaviour {
 	int elevation=0;
 	public const float elevationStep = 2f;
 	public RectTransform uiRect;
+	public HexGridChunk chunk;
 
 	[SerializeField]
 	HexCell[] neighbors;
@@ -30,8 +31,28 @@ public class HexCell : MonoBehaviour {
 			Vector3 uiPosition = uiRect.localPosition;
 			uiPosition.z = elevation * -Hexmetrics.elevationChange;
 			uiRect.localPosition = uiPosition;
+			Refresh ();
+		
 		}
 	}
+
+	public Color Color {
+		get {
+			return color;
+		}
+		set {
+			if (color == value) {
+				return;
+			}
+			color = value;
+			Refresh();
+		}
+	}
+
+
+
+
+
 
 	public HexCell GetNeighbor (HexDirection direction) {
 		return neighbors[(int)direction];
@@ -57,5 +78,15 @@ public class HexCell : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+	void Refresh () {
+		chunk.Refresh();
+		for (int i = 0; i < neighbors.Length; i++) {
+			HexCell neighbor = neighbors[i];
+			if (neighbor != null && neighbor.chunk != chunk) {
+				neighbor.chunk.Refresh();
+			}
+		}
 	}
 }

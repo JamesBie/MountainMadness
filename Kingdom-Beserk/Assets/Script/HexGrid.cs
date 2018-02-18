@@ -12,12 +12,16 @@ public class HexGrid : MonoBehaviour {
 
 	int cellCountX; //how many cells in total along x
 	int cellCountZ;// how many cells in total along z
+
 	public HexCell cellPrefab;
+	public HexGridChunk chunkPrefab;
 	public Text cellLabelPrefab;
 	public Material[] HexMaterials;
+
+
 	MeshRenderer mr;
-	Canvas gridCanvas;
-	HexMesh hexMesh;
+
+	HexGridChunk[] chunks;
 
 
 	public Color defaultColor = Color.white;
@@ -26,14 +30,14 @@ public class HexGrid : MonoBehaviour {
 	HexCell [] cells;
 
 	void Awake () {
-		gridCanvas = GetComponentInChildren<Canvas> ();
-		hexMesh = GetComponentInChildren<HexMesh> ();
+
 		mr = GetComponentInChildren<MeshRenderer> ();
 	
 
 		cellCountX = chunkCountX * Hexmetrics.chunkSizeX;
 		cellCountZ = chunkCountZ * Hexmetrics.chunkSizeZ;
 
+		CreateChunks ();
 		CreateCells ();
 	}
 	void CreateCells(){
@@ -47,7 +51,16 @@ public class HexGrid : MonoBehaviour {
 	
 	}
 		
+	void CreateChunks () {
+		chunks = new HexGridChunk[chunkCountX * chunkCountZ];
 
+		for (int z = 0, i = 0; z < chunkCountZ; z++) {
+			for (int x = 0; x < chunkCountX; x++) {
+				HexGridChunk chunk = chunks[i++] = Instantiate(chunkPrefab);
+				chunk.transform.SetParent(transform);
+			}
+		}
+	}
 
 	void CreateCell (int x, int z, int i){
 		Vector3 position;
@@ -56,7 +69,7 @@ public class HexGrid : MonoBehaviour {
 		position.z = z * (Hexmetrics.outerRadius*1.5f);
 
 		HexCell cell = cells[i] = Instantiate<HexCell>(cellPrefab);
-		cell.transform.SetParent(transform, false);
+		//cell.transform.SetParent(transform, false);
 		cell.transform.localPosition = position;
 		cell.coordinates = HexCoordinates.FromOffsetCoordinates (x,z);
 		cell.color = HexMaterials [Random.Range(0,HexMaterials.Length)].color;
@@ -68,15 +81,15 @@ public class HexGrid : MonoBehaviour {
 
 		if (z > 0) {
 			if ((z & 1) == 0) {
-				cell.SetNeighbor(HexDirection.SE, cells[i - width]);
+				cell.SetNeighbor(HexDirection.SE, cells[i - cellCountX]);
 				if (x > 0) {
-					cell.SetNeighbor(HexDirection.SW, cells[i - width - 1]);
+					cell.SetNeighbor(HexDirection.SW, cells[i - cellCountX - 1]);
 				}
 			}
 			else {
-				cell.SetNeighbor(HexDirection.SW, cells[i - width]);
-				if (x < width - 1) {
-					cell.SetNeighbor(HexDirection.SE, cells[i - width + 1]);
+				cell.SetNeighbor(HexDirection.SW, cells[i - cellCountX]);
+				if (x < cellCountX - 1) {
+					cell.SetNeighbor(HexDirection.SE, cells[i - cellCountX + 1]);
 				}
 			}
 		}
@@ -85,19 +98,31 @@ public class HexGrid : MonoBehaviour {
 
 		//Text label coodrinates to display where each cell is. can remove later
 		Text label = Instantiate<Text> (cellLabelPrefab);
-		label.rectTransform.SetParent (gridCanvas.transform, false);
+		//label.rectTransform.SetParent (gridCanvas.transform, false);
 		label.rectTransform.anchoredPosition = new Vector2 (position.x, position.z);
 		label.text = x.ToString() + "\n" + z.ToString();
 		label.text = cell.coordinates.ToStringOnSeparateLines();
 
 		cell.uiRect = label.rectTransform;
+
+		AddCellToChunk(x, z, cell);
 	}
 
 
+	void AddCellToChunk (int x, int z, HexCell cell) {
+
+		int chunkX = x / Hexmetrics.chunkSizeX;
+		int chunkZ = z / Hexmetrics.chunkSizeZ;
+		HexGridChunk chunk = chunks[chunkX + chunkZ * chunkCountX];
+
+		int localX = x - chunkX * Hexmetrics.chunkSizeX;
+		int localZ = z - chunkZ * Hexmetrics.chunkSizeZ;
+		chunk.AddCell(localX + localZ * Hexmetrics.chunkSizeX, cell);
+	}
+
 	// Use this for initialization
 	void Start () {
-		hexMesh.Triangulate (cells);
-		
+
 	}
 	
 	// Update is called once per frame
@@ -116,7 +141,7 @@ public class HexGrid : MonoBehaviour {
 		if (Physics.Raycast(inputRay, out hit)) {
 			TouchCell(hit.point);
 
-			Refresh ();
+
 		}
 	}
 
@@ -125,10 +150,11 @@ public class HexGrid : MonoBehaviour {
 		position = transform.InverseTransformPoint(position);
 		HexCoordinates coordinates = HexCoordinates.FromPosition(position);
 		Debug.Log("touched at " + coordinates.ToString());
-		int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
+		int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
 		HexCell cell = cells[index];
-		cell.color = touchedColor;
 		ElevateCell (cell);
+		cell.Color = touchedColor;
+
 
 	}
 
@@ -141,7 +167,6 @@ public class HexGrid : MonoBehaviour {
 			
 				cell.Elevation -=(int) Hexmetrics.elevationChange;
 			}
-
 			}
 	
 	}
@@ -151,15 +176,11 @@ public class HexGrid : MonoBehaviour {
 				position = transform.InverseTransformPoint(position);
 				HexCoordinates coordinates = HexCoordinates.FromPosition(position);
 				Debug.Log("touched at " + coordinates.ToString());
-				int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
+		int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
 				return cells[index];
 	
 			}
 
-	public void Refresh() {
-	
-		hexMesh.Triangulate(cells);
-	}
 
 	//used with hex map color editor which is not in use
 //	public void ColorCell (Vector3 position, Color color) {

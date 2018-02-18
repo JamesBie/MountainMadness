@@ -1,11 +1,16 @@
 fileFormatVersion: 2
 guid: 91f3d94b76c774d68b02fc35bf5f701e
-timeCreated: 1518829807
+timeCreated: 1518937768
 licenseType: Free
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - cellPrefab: {fileID: 114857395034690312, guid: f3b8ebb2fabba4462800278611baf32e,
+      type: 2}
+  - chunkPrefab: {fileID: 114461783172636200, guid: 5aafc8a65dd154235834ce8608c90654,
+      type: 2}
+  - cellLabelPrefab: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
