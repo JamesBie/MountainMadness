@@ -9,6 +9,7 @@ public class HexMapEditor : MonoBehaviour {
 	bool isDrag;
 	HexDirection dragDirection;
 	HexCell previousCell;
+	int activeElevation;
 
 	void Awake () {
 		SelectColor(0);
@@ -34,6 +35,7 @@ public class HexMapEditor : MonoBehaviour {
 		Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
 		if (Physics.Raycast(inputRay, out hit)) {
+			//EditCell(hexGrid.GetCell(hit.point));
 			hexGrid.ColorCell(hit.point, activeColor);
 			HexCell currentCell = hexGrid.GetCell(hit.point);
 
@@ -66,6 +68,16 @@ public class HexMapEditor : MonoBehaviour {
 		}
 		isDrag = false;
 	}
+	void EditCell (HexCell cell) {
+		cell.color = activeColor;
+		cell.elevation = activeElevation;
+		hexGrid.Refresh();
+	}
+
+	public void SetElevation (float elevation) {
+		activeElevation = (int)elevation;
+	}
+
 
 
 }

@@ -130,7 +130,7 @@ public class HexGrid : MonoBehaviour {
 	void Update () {
 		if (Input.GetMouseButtonDown(0)||Input.GetMouseButtonDown(1)) {
 			Debug.Log ("left/right button clicked");
-			//HandleInput();
+			HandleInput();
 		}
 		
 	}
@@ -140,7 +140,8 @@ public class HexGrid : MonoBehaviour {
 		Debug.Log ("Raycast looking for collider");
 		RaycastHit hit;
 		if (Physics.Raycast(inputRay, out hit)) {
-			ColorCell(hit.point, editor.activeColor);
+			//ColorCell(hit.point, editor.activeColor);
+			//EditCell(hexGrid.GetCell(hit.point));
 
 
 		}
@@ -199,5 +200,9 @@ public class HexGrid : MonoBehaviour {
 		ElevateCell (cell);
 		cell.Color = color;
 		//hexMesh.Triangulate(cells);
+	}
+
+	public void Refresh(){
+
 	}
 }

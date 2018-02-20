@@ -6,7 +6,7 @@ public class HexCell : MonoBehaviour {
 
 	public HexCoordinates coordinates;
 	public Color color;
-	int elevation=0;
+	public int elevation=0;
 	public const float elevationStep = 2f;
 	public RectTransform uiRect;
 	public HexGridChunk chunk;
@@ -204,6 +204,19 @@ public class HexCell : MonoBehaviour {
 		neighbor.RefreshSelfOnly();
 	}
 
+	//gets cells edge type for cliffs in a certain direction
+	public HexEdgeType GetEdgeType (HexDirection direction) {
+		return Hexmetrics.GetEdgeType(
+			elevation, neighbors[(int)direction].elevation
+		);
+	}
+
+	//determines edge type between two cells for triangulating corners
+	public HexEdgeType GetEdgeType (HexCell otherCell) {
+		return Hexmetrics.GetEdgeType(
+			elevation, otherCell.elevation
+		);
+	}
 
 
 
